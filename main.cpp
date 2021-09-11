@@ -40,22 +40,38 @@ using namespace std;
 //	b = temp;
 //}
 
-//引用做函数的返回值
-//1、不要返回局部变量的引用
-int& test01()
+////引用做函数的返回值
+////1、不要返回局部变量的引用
+//int& test01()
+//{
+//	int a = 10;//局部变量存放在四区中的栈区
+//	return a;
+//}
+//
+////2、函数的调用可以作为左值
+//
+//int& test02()
+//{
+//	static int a = 10;//静态变量，存放在全局区域
+//
+//	return a;
+//
+//}
+
+//发现是引用，转换为 int*const ref  = &a；
+//void func(int& ref)
+//{
+//	ref = 100;//ref 是引用，转换为 *ref = 100
+//}
+
+//常量引用
+//使用场景：用来修饰形参，防止误操作；
+
+//打印数据函数
+void showvalue(const int &val)//防止修改实参数据
 {
-	int a = 10;//局部变量存放在四区中的栈区
-	return a;
-}
-
-//2、函数的调用可以作为左值
-
-int& test02()
-{
-	static int a = 10;//静态变量，存放在全局区域
-
-	return a;
-
+	//val = 2000;
+	cout << "val = " << val << endl;
 }
 
 int main()
@@ -92,20 +108,47 @@ int main()
 	//cout << "a = " << a << endl;
 	//cout << "b = " << b << endl;
 
-	int& ref = test01();
-	cout << "ref = " << ref << endl;
-	cout << "ref = " << ref << endl;
+	//int& ref = test01();
+	//cout << "ref = " << ref << endl;
+	//cout << "ref = " << ref << endl;
 
-	int& ref2 = test02();
-	cout << "ref2 = " << ref2 << endl;
-	cout << "ref2 = " << ref2 << endl;
-	cout << "ref2 = " << ref2 << endl;
+	//int& ref2 = test02();
+	//cout << "ref2 = " << ref2 << endl;
+	//cout << "ref2 = " << ref2 << endl;
+	//cout << "ref2 = " << ref2 << endl;
 
-	test02() = 1000;//如果函数的返回值是引用，这个函数调用可以作为左值
+	//test02() = 1000;//如果函数的返回值是引用，这个函数调用可以作为左值
 
-	cout << "ref2 = " << ref2 << endl;
-	cout << "ref2 = " << ref2 << endl;
-	cout << "ref2 = " << ref2 << endl;
+	//cout << "ref2 = " << ref2 << endl;
+	//cout << "ref2 = " << ref2 << endl;
+	//cout << "ref2 = " << ref2 << endl;
+
+
+	//int a = 10;
+
+	////自动转换为int* const ref =&a;地址不可变，但指针值可以改变
+	////也就是为什么引用无法修改
+
+	//int& ref = a;
+	//ref = 20;//内部发现ref 为引用，自动帮我们转换为 *ref = 20
+
+	//cout << "a:" << a << endl;
+	//cout << "ref: " << ref << endl;//这里的ref类比为*ref指针的解码
+
+
+	//int a = 10;
+	////int& ref = 10;//错误 引用必须引用一块合法的内存空间 
+
+	////加上const之后 编译器将代码修改为
+	////int temp = 10;const int& ref = temp;
+	//const int& ref = 10;
+	////ref = 20;//错误 加上const 之后变成只读，不可修改
+
+	int a = 100;
+	showvalue(a);
+
+
+
 
 
 	system("pause");
